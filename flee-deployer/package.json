@@ -1,0 +1,24 @@
+{
+  "name": "flee-deployer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "noImplicitAny": false,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@onflow/fcl": "^0.0.67",
+    "@onflow/rlp": "^0.0.3",
+    "@onflow/sdk": "^0.0.44",
+    "elliptic": "^6.5.4",
+    "sha3": "^2.1.4"
+  },
+  "devDependencies": {
+    "@onflow/types": "^0.0.4"
+  }
+}
