@@ -19,6 +19,7 @@
     "sha3": "^2.1.4"
   },
   "devDependencies": {
+    "@onflow/dev-wallet": "^0.0.10",
     "@onflow/types": "^0.0.4"
   }
 }

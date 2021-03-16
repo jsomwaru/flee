@@ -21,20 +21,8 @@ class Deployer {
     files.forEach(file => {
       data = fs.readFileSync(path.join(this.contractsDirs, file))
       .replace(`"${file}"`, )
-
     })
 
-  }
-
-  async deployInterfaces() {
-    console.log('--DEPLOYING INTERFACES--')
-    return Object.keys(constants.interfaces).map(async (key) => {
-      let t = await fs.readFile(constants.interfaces[key])
-      let name = constants.interfaces[key].split('/').pop()
-      var auth = this.flow.authorizeAccount()
-      let block  = await this.flow.addContract(name ,t, auth, auth, auth)
-      return {name: block}
-    });
   }
 
 }

@@ -4,15 +4,17 @@ Contains constant that will be used in the deployment service
 
 const NonFungibleTokenPath = "contracts/NonFungibleToken.cdc"
 const FleeNFTPath = "contracts/FleeNFT.cdc"
-const FleeNFTAddress = ""
-const NFTAddress = ""
+const FleeTokenPath = "contracts/Flees.cdc"
+const FungibleTokenAddress = "0xee82856bf20e2aa6"
+
 
 const interfaces = {
     NonFungibleTokenPath,
-    FleeNFTPath
+    FleeNFTPath,
+    FleeTokenPath
+}
+const addresses = {
+    FungibleTokenAddress
 }
 exports.interfaces = interfaces
-
-exports = FleeNFTAddress
-exports = NFTAddress
-
+exports.addresses = addresses

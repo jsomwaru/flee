@@ -3,22 +3,25 @@
 var f = require('@onflow/fcl')
 var flow = require('./services/flow')
 var deploy = require('./services/deploy')
+var constants = require('./services/config/constansts')
 var fs = require('fs')
 
 f.config()
+  .put('OxFT', constants.addresses.FungibleTokenAddress)
   .put("accessNode.api", "http://localhost:8080")
   .put("challenge.handshake", "http://localhost:8701/flow/authenticate")
 
-let pk =  "e07c3378c90c8a06ff4d9d2c67aec9e0610e5f4933dbca3be9d50e834715add0"
-var j = new flow.FlowService("0xf8d6e0586b0a20c7",'0',pk)
+let payeract = ""
+let payerpk = 'b23fcd50061846c26c466fdcd6e837b096da2d463c8740e9174cf5b9ab872d1f'
+let pk =  "bf9db4706c2fdb9011ee7e170ccac492f05427b96ab41d8bf2d8c58443704b76"
+var j = new flow.FlowService("0xf8d6e0586b0a20c7",0,pk)
 
 let auth = j.authorizeAccount()
-console.log(auth)
+let code = fs.readFileSync('contracts/Flees.cdc', 'utf-8')
 
-j.addContract('Flees', fs.readFileSync('contracts/Flees.cdc'), auth, auth, auth)
+j.createFlowAccount()
 
-
-
+j.addContract('Flees', code, auth, auth, auth)
 
 // run().then((r)=> {
 //     console.log(r.keys)

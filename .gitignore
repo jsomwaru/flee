@@ -1,1 +1,3 @@
-*/node_modules/*
+node_modules/*
+flee-deployer/node_modules/*
+keys
