@@ -1,0 +1,21 @@
+.auth-buttn-container {
+  padding-top: 45px;
+  float: right;
+  position: relative;
+}
+
+ .top-bar > div {
+  display: flex;
+  align-items: flex-end;
+}  
+
+.logo {
+  float: left;
+}
+
+.logo > img {
+  max-width: 100px;
+  height: auto;  
+
+} 
+

@@ -1,30 +1,32 @@
 // learning to deploy shit
 const fs = require('fs').promises
-const path = require('path')
 const constants = require('./config/constants')
 
 
-class Deployer {
+// Only deploys to default service account now
+// But can be easily fixed adding extra auth
+async function deploy (flowService) {
   
-  constructor(
-    flowService
-  ) {
-    this.flow = flowService
-    this.contractsDirs = '../contracts'
-  }
-  // Deploys everything in contacts directory
-  async deploy ()  {
-    console.log("--DEPLOYING CONTRACTS--")
-    // Open contracts
-    files = fs.readdirSync(this.contractsDirs)
-    contracts = {}
-    files.forEach(file => {
-      data = fs.readFileSync(path.join(this.contractsDirs, file))
-      .replace(`"${file}"`, )
-    })
+  let code = await fs.readFile(constants.Contracts.NonFungibleTokenPath)
+  let auth = flowService.authorizeAccount()
+  // let res  = await flowService.addContract('NonFungibleToken', code, auth, auth, auth)
+  
+  //if(!res) throw new Error('Contract Deployment no response')
+  
+  let NFTAddress = '0xf8d6e0586b0a20c7' // or whatever it is
+  code = await fs.readFile(constants.Contracts.FleeNFTPath, 'utf-8')
+  //code.replace("\"./NonFungibleToken\"", NFTAddress)
 
-  }
+  let res2 = await flowService.addContract('FleeNFT', code, auth, auth, auth)
+  
+  // if(!res2) throw new Error('Error Deployig FleeNTT')
 
+  // code = await fs.readFile(constanst.Contracts.FleeTokenPath, 'utf-8')
+  // let res3 =  await flowService.addContract(('Flees', code, auth, auth, auth))  
+
+  return {
+    res2,
+//    res3
+  }
 }
-
-exports.Deployer = Deployer
+exports.deploy = deploy
