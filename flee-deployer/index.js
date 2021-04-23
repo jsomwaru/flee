@@ -1,10 +1,7 @@
-//import addContract from './services/deploy.js'
-
 var f = require('@onflow/fcl')
 var flow = require('./services/flow')
 var deploy = require('./services/deploy')
 var constants = require('./services/config/constants')
-var fs = require('fs')
 
 f.config()
   .put("OxFT", constants.addresses.FungibleTokenAddress)

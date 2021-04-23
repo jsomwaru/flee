@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './style/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import "./config"
@@ -8,14 +8,7 @@ import "./config"
 ReactDOM.render(
   <React.StrictMode>
     <App />
-    <div>
-      <form> 
-      <label>
-        Text:
-        <input type="text" id="text"/>
-    </label>
-    </form>
-    </div>
+    
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -11,6 +11,17 @@
 			"keyContext": {
 				"privateKey": "e07c3378c90c8a06ff4d9d2c67aec9e0610e5f4933dbca3be9d50e834715add0"
 			}
+		},
+		"testnet-service": {
+			"address": "f81d9858a9a26f3e",
+			"privateKey": "846504a8e0fabba2cfdb21bc602aab776ed161b7a75b5a86333c88da207e6496",
+			"sigAlgorithm": "ECDSA_P256",
+			"hashAlgorithm": "SHA3_256",
+			"keyType": "hex",
+			"keyIndex": 0,
+			"keyContext": {
+				"privateKey": "846504a8e0fabba2cfdb21bc602aab776ed161b7a75b5a86333c88da207e6496"
+			}
 		}
 	}
 }

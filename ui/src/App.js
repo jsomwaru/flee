@@ -1,22 +1,24 @@
-import logo from './flee.png';
-import './App.css';
+import './style/App.css';
 import './AuthCluster'
 import { AuthCluster } from './AuthCluster';
+import { CurrentUserSubScription} from "./hooks/current-user.hook"
+import { RecoilRoot } from 'recoil'
+import React from "react"
+import "./config"
 
 
 function App() {
   return (
     <div className="App">
+      <RecoilRoot>
+      <CurrentUserSubScription />
+      <React.Suspense fallback={"Loading"}>
       <div className="top-bar">
         <AuthCluster />
-        <div className="logo">
-          <img className="logo" src={logo} alt="logo"></img>
-        </div>
-        <form> 
-        <input type="text" id="text">Text</input>
-      </form>
-    </div>
-    
+      </div>
+      </React.Suspense>
+      <h1>Welcome To Flee</h1>
+      </RecoilRoot>
    </div>
   );
 }

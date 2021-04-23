@@ -1,6 +1,7 @@
-import NonFungibleToken from  0xf8d6e0586b0a20c7
-
+import NonFungibleToken from  0x01cf0e2f2f715450
 pub contract FleeNFT: NonFungibleToken {
+    
+    pub event Deposited(tokenid: UInt64, to: Address?)
     
     // Main NonFungibleToken.NFT
     pub resource NFT: NonFungibleToken.INFT {
@@ -17,7 +18,15 @@ pub contract FleeNFT: NonFungibleToken {
         }
     }
     
-    pub resource Collection: NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic {
+    pub resource interface FleeCollectionPublic {
+        pub fun deposit(token: @NonFungibleToken.NFT)
+        pub fun getIds(): [UInt64]
+        pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT
+        pub fun borrowFlee(id: UInt64): &FleeNFT.NFT?
+    }
+
+
+    pub resource Collection: NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, FleeCollectionPublic {
         
         pub var ownedTokens: @{UInt64: NonFungibleToken.NFT}
 
@@ -26,7 +35,6 @@ pub contract FleeNFT: NonFungibleToken {
         }
 
         destroy () {
-            // idk should i
             destroy self.ownedTokens
         }
 
@@ -35,26 +43,34 @@ pub contract FleeNFT: NonFungibleToken {
             return <- token
         }
         
-        pub fun deposit(token: @NonFungibleToken.NFT){
-            self.ownedTokens[token.id] <-! token
+        pub fun deposit(token: @NonFungibleToken.NFT) {
+            let token <- token as! @FleeNFT.NFT
+            let id: UInt64 = token.id
+            let oldToken <- self.ownedTokens[token.id] <-! token
+            emit Deposited(tokenid: id, to: self.owner?.address)
+            destroy oldToken
         }
 
         pub fun getIds(): [UInt64] {
             return self.ownedTokens.keys
         }
 
-        pub fun checkId(id: UInt64): Bool {
-            return self.ownedTokens[id] != nil
-        }
-
         pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT {
             return &self.ownedTokens[id] as &NonFungibleToken.NFT
         }
 
-    }
+        pub fun borrowFlee(id: UInt64): &FleeNFT.NFT? {
+            if self.ownedTokens[id] != nil  {
+                let item = &self.ownedTokens[id] as auth &NonFungibleToken.NFT
+                return item as! &FleeNFT.NFT
+            }
+            return nil
+        }
+    }   
+
 
     pub resource Minter {
-        pub fun mint(recipient: &{NonFungibleToken.CollectionPublic}, formData: {String:String}) {
+        pub fun mint(recipient: &{FleeCollectionPublic}, formData: {String:String}) {
             emit Minted(id: FleeNFT.supply, metadata: formData)
 
             recipient.deposit(token: <-create NFT(id: FleeNFT.supply, metadata: formData))
@@ -64,16 +80,14 @@ pub contract FleeNFT: NonFungibleToken {
     }
 
 
- 
     pub fun createEmptyCollection(): @NonFungibleToken.Collection {
         return <- create Collection()
     }
 
-
     pub fun fetch(_ from: Address, id: UInt64): &NonFungibleToken.NFT? {
         let collection =  getAccount(from)
         .getCapability(/public/FleeCollectionPublic)!
-        .borrow<&FleeNFT.Collection{NonFungibleToken.CollectionPublic}>()
+        .borrow<&FleeNFT.Collection{FleeCollectionPublic}>()
         ?? panic("Could not get collection")
 
         return collection.borrowNFT(id: id)
@@ -101,7 +115,7 @@ pub contract FleeNFT: NonFungibleToken {
         self.account.save(<-collection,      to: /storage/collection)
         
         self.account.link<&Minter>(/private/minter, target: /storage/minter)
-        self.account.link<&FleeNFT.Collection{NonFungibleToken.CollectionPublic}>(/public/FleeCollectionPublic, target: /storage/FleeCollection)
+        self.account.link<&FleeNFT.Collection{FleeCollectionPublic}>(/public/FleeCollectionPublic, target: /storage/FleeCollection)
 
         emit ContractInitialized()
     }
