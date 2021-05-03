@@ -5,11 +5,11 @@ const db = require('../services/db')
 
 
 function initProfileRouter() {
+    console.log(process.env)
     router = express.Router()
     router.post('/profile/provision-user',
-        [validater.header('X-Api-Key').exists().custom(value => {
-            if (value !== process.env.API_KEY) throw new Error("Authentication Error")
-        }), validater.body("username")
+        [validater.header('X-Api-Key').exists().equals(process.env.API_KEY),
+         validater.body("username")
             .exists()
             .isString().withMessage("username not found")
             ,validater.body("address").exists().isString().withMessage("address not found")],
@@ -18,10 +18,10 @@ function initProfileRouter() {
             // add user to db and return information
             var r;         
             try { 
-                 r = await db.query('insert into users values($1, $2) RETURNING *', [req.body.username, req.body.address])
+                 r = await db.query('insert into users values($1, $2) RETURNING *', [req.body.address, req.body.username])
             } catch (e) {
                 console.log(e)
-                res.status(500).send("There was an error Initializing your account")
+                res.status(400).send("There was an error Initializing your account")
                 next()
             }
             res.status(200).json({
@@ -44,15 +44,11 @@ function initProfileRouter() {
             }
             res.status(200).json(r.rows)
         })
-
-        router.get ('/', async (req, res, next) => {
-            res.sendStatus("welcome to flee api")
+        
+        router.post ('/', async (req, res, next) => {
+            console.log(req.body)
         })
-
         return router
-
-    
-    
 }
 
 

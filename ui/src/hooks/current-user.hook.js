@@ -13,6 +13,7 @@ const tools = {
     logout: fcl.unauthenticate,
     signup: fcl.signUp,
     changeuser: fcl.reauthenticate,
+    authenticate: fcl.authenticate
 }
 
 export const initUser = atom({
@@ -34,10 +35,10 @@ export const Init = selector({
     }
 })
 
-export const CurrentUserInitilization = () => {
-    const [initUser, setInitUser] = useRecoilState()
-    useEffect( ()  => set())
-}
+// export const CurrentUserInitilization = () => {
+//     const [initUser, setInitUser] = useRecoilState()
+//     useEffect( ()  => set())
+// }
 
 export const CurrentUserSubScription = () => {
     let setUser = useSetRecoilState(currentUser)

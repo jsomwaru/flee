@@ -1,4 +1,4 @@
-import NonFungibleToken from  0x01cf0e2f2f715450
+import NonFungibleToken from  0xf8d6e0586b0a20c7
 pub contract FleeNFT: NonFungibleToken {
     
     pub event Deposited(tokenid: UInt64, to: Address?)
@@ -115,7 +115,7 @@ pub contract FleeNFT: NonFungibleToken {
         self.account.save(<-collection,      to: /storage/collection)
         
         self.account.link<&Minter>(/private/minter, target: /storage/minter)
-        self.account.link<&FleeNFT.Collection{FleeCollectionPublic}>(/public/FleeCollectionPublic, target: /storage/FleeCollection)
+        self.account.link<&FleeNFT.Collection{NonFungibleToken.CollectionPublic,FleeCollectionPublic}>(/public/FleeCollectionPublic, target: /storage/FleeCollection)
 
         emit ContractInitialized()
     }

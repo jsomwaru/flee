@@ -14,9 +14,6 @@ app.use((req, res, next) => {
 app.use(express.json())
 app.use( "/v1", routes.initProfileRouter())
 
-
-
 app.listen(port,() => {
     console.log(`api listening at http://localhost:${port}`)
   })
-

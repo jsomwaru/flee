@@ -62,7 +62,6 @@ class FleeService {
 
     initializeAccount(addr, keyindex, signature) {
         let acct = flowService.authorize(addr, keyindex, signature)
-        
         const code = `
         import FleeNFT from 0xFLEENFT
         transaction {
@@ -72,12 +71,12 @@ class FleeService {
             }
             execute {
                 let collection <- FleeNFT.creatEmptyCollection()
-                self.acct.save(<- collection, /public/FleeCollection)
-                self.acct.link<&FleeNFT{FleeNFT.CollectionPublic}>(FleeNFT.FleeCollectionPublic, /public/FleeCollectionPublic)
+                self.acct.save(<- collection, /storage/FleeCollection)
+                self.acct.link<&FleeNFT.Collection{FleeNFT.CollectionPublic}>(/public/FleeCollectionPublic, target: /storage/FleeColection)
             }
         }` 
         
-        fcl.send([fcl.transaction([code, acct,])])
+        fcl.send([fcl.transaction([new Buffer(code), acct,])])
     }   
 }
 
