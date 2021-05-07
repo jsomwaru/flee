@@ -13,8 +13,10 @@ export async function initAccount(auth) {
                     account.link<&FleeNFT.Collection{NonFungibleToken.CollectionPublic, FleeNFT.FleeCollectionPublic}>(/public/FleeCollectionPublic, target: /storage/FleeCollection)
                 }
             }
-        }
-        `, fcl.payer(fcl.authz), fcl.authorizations([fcl.authz]),fcl.proposer(fcl.authz), fcl.limit(35)] ).then(fcl.decode)
+        }`, fcl.payer(fcl.authz), 
+            fcl.authorizations([fcl.authz]),
+            fcl.proposer(fcl.authz), 
+            fcl.limit(35)]).then(fcl.decode)
     return fcl.tx(tx).onceSealed()
 }
 

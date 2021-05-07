@@ -1,12 +1,11 @@
 import React from "react"
 import logo from './flee.png';
-import "./style/auth-cluster.css"
 import {useCurrentUser, Init} from  "./hooks/current-user.hook"
-import {InitProfile, test} from "./hooks/init-flee-profile.hook"
+import {InitProfile} from "./hooks/init-flee-profile.hook"
 import {useRecoilValue} from "recoil"
 import {Modal} from "./parts/modal"
 import { initAccount } from './flow/init-account';
-//import {useHistory} from "react-router-dom"
+
 
 const refopen = (ref) => { 
     if (ref.current) {

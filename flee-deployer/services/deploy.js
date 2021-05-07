@@ -5,11 +5,11 @@ const constants = require('./config/constants')
 // But can be easily fixed adding extra auth
 async function deploy (flowService) {
   
-  // let code = await fs.readFile(constants.Contracts.NonFungibleTokenPath)
+  let code = await fs.readFile(constants.Contracts.NonFungibleTokenPath)
   let auth = flowService.authorizeAccount()
-  // let res  = await flowService.addContract('NonFungibleToken', code, auth, auth, auth)
+  let res  = await flowService.addContract('NonFungibleToken', code, auth, auth, auth)
   
-  // if(!res) throw new Error('Contract Deployment no response')
+  if(!res) throw new Error('Contract Deployment no response')
   
   let code2 = await fs.readFile(constants.Contracts.FleeNFTPath, 'utf-8')
 
@@ -18,8 +18,8 @@ async function deploy (flowService) {
   if(!res2) throw new Error('Error Deployig FleeNFT') 
 
   return {
-    res2,
-    res
+    res,
+    res2
   }
 }
 

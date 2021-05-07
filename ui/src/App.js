@@ -6,9 +6,7 @@ import {InitProfile} from "./hooks/init-flee-profile.hook"
 import { RecoilRoot } from 'recoil'
 import React, {useRef} from "react"
 import "./config"
-import {Modal} from "./parts/modal"
-import { ref } from '@onflow/fcl';
-
+import {MinterButton} from './Minter'
 
 function App() {
   return (
@@ -18,6 +16,7 @@ function App() {
         <React.Suspense fallback={"Loading"}>
           <div className="top-bar">
             <AuthCluster  />
+            <MinterButton />
           </div>
           </React.Suspense>
       </RecoilRoot>

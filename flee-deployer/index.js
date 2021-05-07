@@ -16,10 +16,10 @@ let acct = flowService.getAccount(serviceAccountAddress).then(r => {
   console.log(r)
 })
 
-// deploy.deploy(flowService).then(r =>  { 
-//     if(Object.entries(r).length == 0) console.log('Error Grabbing reponses from contract deployer.')
-//     else console.log(r)
-//   }
-// )
+deploy.deploy(flowService).then(r =>  { 
+    if(Object.entries(r).length == 0) console.log('Error Grabbing reponses from contract deployer.')
+    else console.log(r)
+  }
+)
 
 

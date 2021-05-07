@@ -77,6 +77,15 @@ pub contract FleeNFT: NonFungibleToken {
             
             FleeNFT.supply = FleeNFT.supply + 1 as UInt64
         }
+
+        pub fun mintTokens(quantity: Int, metadata: {String:String}) : @Collection {
+            let collection <- FleeNFT.createEmptyCollection()
+            let i = 0
+            while i < quantity {
+                collection.deposit(<- create NFT(id: supply, metadata: metadata))
+            }
+            return <- collection
+        }
     }
 
 

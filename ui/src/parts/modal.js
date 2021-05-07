@@ -33,8 +33,9 @@ export const Modal = forwardRef(({children, defaultShow = false, fade = false}, 
 
     useImperativeHandle(combinedRef, () => ({
         open: () => setIsOpen(true),
-        close
-    }), [close])
+        close,
+        isOpen
+    }), [close,  isOpen])
 
     const handleKeys =  useCallback(event => {
         if (event.keyCode === 27) close() 
