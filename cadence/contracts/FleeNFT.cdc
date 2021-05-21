@@ -1,4 +1,6 @@
 import NonFungibleToken from  0xf8d6e0586b0a20c7
+// import NonFungibleToken from  "./NonFungibleToken.cdc"
+
 pub contract FleeNFT: NonFungibleToken {
     
     pub event Deposited(tokenid: UInt64, to: Address?)
@@ -70,7 +72,7 @@ pub contract FleeNFT: NonFungibleToken {
 
 
     pub resource Minter {
-        pub fun mint(recipient: &{FleeCollectionPublic}, formData: {String:String}) {
+        pub fun mint(recipient: &FleeNFT.Collection{FleeCollectionPublic}, formData: {String:String}) {
             emit Minted(id: FleeNFT.supply, metadata: formData)
 
             recipient.deposit(token: <-create NFT(id: FleeNFT.supply, metadata: formData))
@@ -82,9 +84,11 @@ pub contract FleeNFT: NonFungibleToken {
             let collection <- FleeNFT.createEmptyCollection()
             let i = 0
             while i < quantity {
-                collection.deposit(<- create NFT(id: supply, metadata: metadata))
+
+                collection.deposit(token: <- create NFT(id: FleeNFT.supply, metadata: metadata))
+                FleeNFT.supply + 1 as UInt64
             }
-            return <- collection
+            return <- collection as! @Collection
         }
     }
 
@@ -103,6 +107,14 @@ pub contract FleeNFT: NonFungibleToken {
     }
 
     access(contract) var supply: UInt64
+    access(contract) var groupId: UInt64
+
+    access(contract) fun getGroupingId(): UInt64 {
+        let id = self.groupId
+        self.groupId = self.groupId + 1 as UInt64
+        return id
+    }
+
     pub event ContractInitialized()
     pub event Withdraw(id: UInt64, from: Address?)
     pub event Deposit(id: UInt64, to: Address?)
@@ -114,11 +126,11 @@ pub contract FleeNFT: NonFungibleToken {
     init() {
 
         self.supply = 1
+        self.groupId = 1 
         // self.collectionPath = /public/FleeCollectionPublic
         // self.storagePath = /storage/FleeCollection
 
         let collection <- FleeNFT.createEmptyCollection()
-
 
         self.account.save(<-create Minter(), to: /storage/minter)
         self.account.save(<-collection,      to: /storage/collection)

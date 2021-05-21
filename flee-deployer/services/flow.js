@@ -18,9 +18,8 @@ class FlowService {
         this.privateKey = privateKey
     }
 
-    getAccount(addr) {
-        const account = fcl.send([fcl.getAccount(addr)])
-        return account
+     async getAccount(addr) {
+        return await fcl.send([fcl.getAccount(addr)])
     }
 
     // provides authorization context to executeing account

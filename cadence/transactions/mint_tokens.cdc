@@ -1,7 +1,7 @@
- import FleeNFT from "../contracts/FleeNFT.cdc"
+ import FleeNFT from 0xf8d6e0586b0a20c7
 
 transaction(recipient: Address, metadata: {String: String} ) {
-    let minter: FleeNFT.Minter
+    let minter: &FleeNFT.Minter
 
     prepare (signer: AuthAccount) {
         self.minter = signer.borrow<&FleeNFT.Minter>(from: /storage/minter)
@@ -16,9 +16,8 @@ transaction(recipient: Address, metadata: {String: String} ) {
     execute {
         
         let recipient = getAccount(recipient)
-        let collection = recipient.getCapability(/public/FleeCollectionpublic)!
-                                  .borrow<&{FleeNFT.FleeCollectionPublic}>()
+        let collection = recipient.getCapability(/public/FleeCollectionpublic)!.borrow<&FleeNFT.Collection{FleeNFT.FleeCollectionPublic}>() as! &AnyResource{FleeNFT.FleeCollectionPublic}
                                   
-        self.minter.mint(recipient: recipient, metadata: metadata)
+        self.minter.mint(recipient: collection, formData: metadata)
     }
 }

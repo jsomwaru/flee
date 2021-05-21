@@ -1,15 +1,17 @@
-export async function mintNFTs(metadata) {
+export async function mintNFTs(inputs) {
+    
     let options = {
         method: "POST",
         headers: {
             "content-type": "application/json",
-            "x-api-token": "bullocks"
+            "x-api-key": "bullocks"
         },
-        body: JSON.stringify(metadata)
+        body: JSON.stringify(inputs)
     }
+
     var res;
     try {
-        res = await fetch('https://localhost:7778' + '/v1/mint', options)
+        res = await fetch('http://localhost:7778' + '/v1/market/mint', options)
     } catch (e) {
         console.log(e)
         return

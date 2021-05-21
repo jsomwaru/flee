@@ -3,13 +3,13 @@
 	"accounts": {
 		"service": {
 			"address": "f8d6e0586b0a20c7",
-			"privateKey": "e07c3378c90c8a06ff4d9d2c67aec9e0610e5f4933dbca3be9d50e834715add0",
+			"privateKey": "bf9db4706c2fdb9011ee7e170ccac492f05427b96ab41d8bf2d8c58443704b76",
 			"sigAlgorithm": "ECDSA_P256",
 			"hashAlgorithm": "SHA3_256",
 			"keyType": "hex",
 			"keyIndex": 0,
 			"keyContext": {
-				"privateKey": "e07c3378c90c8a06ff4d9d2c67aec9e0610e5f4933dbca3be9d50e834715add0"
+				"privateKey": "bf9db4706c2fdb9011ee7e170ccac492f05427b96ab41d8bf2d8c58443704b76"
 			}
 		},
 		"testnet-service": {

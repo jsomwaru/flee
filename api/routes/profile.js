@@ -5,14 +5,12 @@ const db = require('../services/db')
 
 
 function initProfileRouter() {
-    console.log(process.env)
+  
     router = express.Router()
     router.post('/profile/provision-user',
         [validater.header('X-Api-Key').exists().equals(process.env.API_KEY),
-         validater.body("username")
-            .exists()
-            .isString().withMessage("username not found")
-            ,validater.body("address").exists().isString().withMessage("address not found")],
+         validater.body("username").exists().isString().withMessage("username not found"),
+         validater.body("address").exists().isString().withMessage("address not found")],
         validateRequest,
         async (req, res, next) => {
             // add user to db and return information

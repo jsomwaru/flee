@@ -7,12 +7,14 @@ f.config()
   .put("OxFT", constants.addresses.FungibleTokenAddress)
   .put("accessNode.api", "http://localhost:8080")
   .put("challenge.handshake", "http://localhost:8701/flow/authenticate")
+  // .put("discovery.wallet", "http://localhost:3000/fcl/authn") //
+
 
 
 
 let serviceAccountAddress ='0xf8d6e0586b0a20c7'
 var flowService = new flow.FlowService(serviceAccountAddress, 0, constants.Accountkeys.serviceAccountKey)
-let acct = flowService.getAccount(serviceAccountAddress).then(r => {
+flowService.getAccount(serviceAccountAddress).then(r => {
   console.log(r)
 })
 
@@ -22,4 +24,4 @@ deploy.deploy(flowService).then(r =>  {
   }
 )
 
-
+ 
