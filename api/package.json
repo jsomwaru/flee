@@ -14,8 +14,10 @@
     "@onflow/fcl": "^0.0.67",
     "@onflow/types": "^0.0.4",
     "dotenv": "^8.2.0",
+    "elliptic": "^6.5.4",
     "express": "^4.17.1",
     "express-validator": "^6.10.0",
-    "pg": "^8.5.1"
+    "pg": "^8.5.1",
+    "sha3": "^2.1.4"
   }
 }

@@ -50,6 +50,6 @@ pub contract FCL {
 
   init () {
   
-    self.account.save(<- create Root("abcd"), to: /storage/FCL_DEV_WALLET)
+    self.account.save(<- create Root("abda"), to: /storage/FCL_DEV_WALLET)
   }
 }

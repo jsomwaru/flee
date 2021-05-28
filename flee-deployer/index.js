@@ -24,4 +24,8 @@ deploy.deploy(flowService).then(r =>  {
   }
 )
 
+// deploy.deployFCL(flowService).then(r => {
+//   console.log(r)
+// })
+
  

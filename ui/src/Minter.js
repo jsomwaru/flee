@@ -1,5 +1,5 @@
 import React from 'react'
-import {Init} from './hooks/current-user.hook'
+import {Init, useCurrentUser} from './hooks/current-user.hook'
 import {Modal} from './parts/modal'
 import {useRecoilValue} from 'recoil'
 import {mintNFTs} from "./flow/mint-nft"
@@ -31,7 +31,6 @@ const useMintForm = (callback) => {
             let reader = new FileReader()
             reader.readAsDataURL(event.target.files[0])
             // This onload bad boi will get called when ReadAsDataURL is finished 
-            // Like this should be easy but not very clear in JS
             reader.onload = () => {
                 setInputs({...inputs, [event.target.name]: reader.result})
             }
@@ -50,7 +49,8 @@ const useMintForm = (callback) => {
 export function MinterButton () {
     let ref = React.useRef(null)
     let {inputs, handleSubmit, handleInput, handleFile} = useMintForm(mintNFTs)
-
+    let user = useCurrentUser()
+    inputs.addr = user.addr
     return useRecoilValue(Init) ? (
         <div>
         <Modal ref={ref}>

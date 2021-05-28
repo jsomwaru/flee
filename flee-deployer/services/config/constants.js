@@ -6,6 +6,7 @@ Contains constant that will be used in the deployment service
 const NonFungibleTokenPath = "cadence/contracts/NonFungibleToken.cdc"
 const FleeNFTPath = "cadence/contracts/FleeNFT.cdc"
 const FleeTokenPath = "cadence/contracts/Flees.cdc"
+const FleeMarketPath = 'cadence/contracts/FleeMarket.cdc'
 
 // Core Contract Addresses
 const FungibleTokenAddress = "0xee82856bf20e2aa6"
@@ -14,7 +15,8 @@ const FungibleTokenAddress = "0xee82856bf20e2aa6"
 const Contracts = {
     NonFungibleTokenPath,
     FleeNFTPath,
-    FleeTokenPath
+    FleeTokenPath,
+    FleeMarketPath
 }
 const addresses = {
     FungibleTokenAddress

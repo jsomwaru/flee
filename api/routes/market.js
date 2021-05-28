@@ -18,12 +18,13 @@ function initMarketRouter(marketService) {
     async (req, res, next) => {
         
         const metadata = [{
-                key: "name", 
-                value: req.body.name
+                "key": "name", 
+                "value": req.body.name,
+
         }]
         var tx;
         try {
-            tx = await marketService.mint(req.body.quantity, metadata)
+            tx = await marketService.mint(parseInt(req.body.quantity), metadata, req.body.addr)
         } catch(e) {
             console.log(e)
             return  res.status(400).json({"message": 'cancelling transaction'})
@@ -34,8 +35,8 @@ function initMarketRouter(marketService) {
         //                     res.status(400).json({"status": "error minting"})    
         //                     next()
         //                 })
+      
         console.log(tx)
-        // console.log(r)
         return res.status(200).json({
            nfts: [] 
         })

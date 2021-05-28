@@ -1,7 +1,7 @@
-import FleeNFT from 0xf8d6e0586b0a20c7
-import FlowToken from  0xf8d6e0586b0a20c7
-import FungibleToken from  0xee82856bf20e2aa6
-import NonFungibleToken from 0x01cf0e2f2f715450
+import FleeNFT from  "./FleeNFT.cdc"
+import FlowToken from  "./FlowToken.cdc"
+import FungibleToken from  "./FungibleToken.cdc" //0xee82856bf20e2aa6
+import NonFungibleToken from "./NonFungibleToken.cdc"
 
 
 pub contract FleeMarket {

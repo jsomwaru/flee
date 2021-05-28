@@ -15,9 +15,9 @@ transaction(recipient: Address, metadata: {String: String} ) {
 
     execute {
         
-        let recipient = getAccount(recipient)
-        let collection = recipient.getCapability(/public/FleeCollectionpublic)!.borrow<&FleeNFT.Collection{FleeNFT.FleeCollectionPublic}>() as! &AnyResource{FleeNFT.FleeCollectionPublic}
-                                  
+        let recipient = getAccount(0x01cf0e2f2f715450)
+        let collection = recipient.getCapability(/public/FleeCollectionPublic)!.borrow<&FleeNFT.Collection{FleeNFT.FleeCollectionPublic}>()
         self.minter.mint(recipient: collection, formData: metadata)
     }
 }
+ 

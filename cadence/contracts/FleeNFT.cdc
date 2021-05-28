@@ -1,5 +1,5 @@
-import NonFungibleToken from  0xf8d6e0586b0a20c7
-// import NonFungibleToken from  "./NonFungibleToken.cdc"
+// import NonFungibleToken from  0xf8d6e0586b0a20c7
+import NonFungibleToken from  "./NonFungibleToken.cdc"
 
 pub contract FleeNFT: NonFungibleToken {
     
@@ -80,16 +80,18 @@ pub contract FleeNFT: NonFungibleToken {
             FleeNFT.supply = FleeNFT.supply + 1 as UInt64
         }
 
-        pub fun mintTokens(quantity: Int, metadata: {String:String}) : @Collection {
-            let collection <- FleeNFT.createEmptyCollection()
+        pub fun mintTokens(quantity: Int, metadata: {String:String}) : @NonFungibleToken.Collection {
             let i = 0
-            while i < quantity {
+            let collection <- FleeNFT.createEmptyCollection()
 
+            while i < quantity {
                 collection.deposit(token: <- create NFT(id: FleeNFT.supply, metadata: metadata))
                 FleeNFT.supply + 1 as UInt64
             }
-            return <- collection as! @Collection
+
+            return <- collection 
         }
+
     }
 
 
@@ -140,6 +142,6 @@ pub contract FleeNFT: NonFungibleToken {
 
         emit ContractInitialized()
     }
-
 }
+
  

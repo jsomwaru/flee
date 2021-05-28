@@ -1,5 +1,7 @@
 const fcl = require('@onflow/fcl')
-
+const EC  = require('elliptic').ec
+const sha = require('sha3')
+const ec = new EC('p256')
 
 class FlowService {
 
@@ -9,14 +11,14 @@ class FlowService {
         this.privateKey = privateKey
     }
 
-    getAccount(addr) {
+    async getAccount(addr) {
         return fcl.send([fcl.getAccount(addr)])
     }
 
      // provides authorization context to executeing account
     authorize(addr, accountIndex, privateKey) {
         return async (account) => {
-            let user = this.getAccount(addr)
+            let user = await this.getAccount(addr)
             user = user.account
             let key = user.keys[accountIndex]
             let sequenceNum;
@@ -48,9 +50,24 @@ class FlowService {
     authorizeAccount() {
         return this.authorize(
             this.address,
-            this.accountIndex,
+            this.keyIndex,
             this.privateKey
         )
+    }
+
+    hashMsg(msg) {
+        let hash = new sha.SHA3(256)
+        hash.update(Buffer.from(msg, 'hex'))
+        return hash.digest()
+    }
+
+    signMsg(privateKey, message) {
+        const  key = ec.keyFromPrivate(Buffer.from(privateKey, 'hex'))
+        const sig = key.sign(this.hashMsg(message)) 
+        const n = 32
+        const r = sig.r.toArrayLike(Buffer, "be", n)
+        const s = sig.s.toArrayLike(Buffer, "be", n)
+        return Buffer.concat([r,s]).toString('hex')
     }
 }
 
