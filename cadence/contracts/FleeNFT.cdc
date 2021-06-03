@@ -3,7 +3,8 @@ import NonFungibleToken from  "./NonFungibleToken.cdc"
 
 pub contract FleeNFT: NonFungibleToken {
     
-    pub event Deposited(tokenid: UInt64, to: Address?)
+    
+
     
     // Main NonFungibleToken.NFT
     pub resource NFT: NonFungibleToken.INFT {
@@ -22,6 +23,7 @@ pub contract FleeNFT: NonFungibleToken {
     
     pub resource interface FleeCollectionPublic {
         pub fun deposit(token: @NonFungibleToken.NFT)
+        pub fun depositCollection(collection: @Collection)
         pub fun getIds(): [UInt64]
         pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT
         pub fun borrowFlee(id: UInt64): &FleeNFT.NFT?
@@ -48,9 +50,17 @@ pub contract FleeNFT: NonFungibleToken {
         pub fun deposit(token: @NonFungibleToken.NFT) {
             let token <- token as! @FleeNFT.NFT
             let id: UInt64 = token.id
-            let oldToken <- self.ownedTokens[token.id] <-! token
+            let oldToken <- self.ownedTokens[id] <-! token
             emit Deposited(tokenid: id, to: self.owner?.address)
             destroy oldToken
+        }
+
+        pub fun depositCollection(collection: @Collection) {
+            for i in collection.getIds() {
+                let oldToken <- self.ownedTokens[i] <-! collection.withdraw(tokenId: i)
+                destroy oldToken
+            }
+            destroy collection 
         }
 
         pub fun getIds(): [UInt64] {
@@ -80,16 +90,14 @@ pub contract FleeNFT: NonFungibleToken {
             FleeNFT.supply = FleeNFT.supply + 1 as UInt64
         }
 
-        pub fun mintTokens(quantity: Int, metadata: {String:String}) : @NonFungibleToken.Collection {
-            let i = 0
-            let collection <- FleeNFT.createEmptyCollection()
-
+        pub fun mintTokens(collection: &FleeNFT.Collection{FleeCollectionPublic}, quantity: Int, metadata: {String:String})  {
+            var i = 0
             while i < quantity {
                 collection.deposit(token: <- create NFT(id: FleeNFT.supply, metadata: metadata))
+                emit Minted(id: FleeNFT.supply, metadata: metadata )
                 FleeNFT.supply + 1 as UInt64
+                i = i + 1
             }
-
-            return <- collection 
         }
 
     }
@@ -118,6 +126,7 @@ pub contract FleeNFT: NonFungibleToken {
     }
 
     pub event ContractInitialized()
+    pub event Deposited(tokenid: UInt64, to: Address?)
     pub event Withdraw(id: UInt64, from: Address?)
     pub event Deposit(id: UInt64, to: Address?)
     pub event Minted(id: UInt64, metadata:{String:String})

@@ -12,25 +12,17 @@ transaction (quantity: Int, fileMeta: {String: String}, reciever: Address) {
         self.reciever = reciever
 
         self.minter = signer.borrow<&FleeNFT.Minter>(from: /storage/minter)!
+
     }
 
     execute {
         
         let collection = getAccount(self.reciever).getCapability(/public/FleeCollectionPublic)!
-                         .borrow<&FleeNFT.Collection{FleeNFT.FleeCollectionPublic}>()
-                         ?? panic("Could not borrow collection")
+                        .borrow<&FleeNFT.Collection{FleeNFT.FleeCollectionPublic}>()
+                        ?? panic("Could not borrow collection")
 
-        log(collection)
-        // self.minter.mint(recipient: collection!, formData: fileMeta)
-
-        let tokens <- self.minter.mintTokens(quantity: quantity, metadata: fileMeta)
+        self.minter.mintTokens(collection: collection!, quantity: quantity, metadata: fileMeta)
         
-        for i in tokens.getIds() {
-            let token <- tokens.withdraw(tokenId: i)
-            collection!.deposit(token: <-token )
-        }
-
-        destroy tokens
     }
     
 }

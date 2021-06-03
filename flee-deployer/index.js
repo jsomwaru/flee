@@ -11,7 +11,7 @@ f.config()
 
 
 
-
+process.chdir('/Users/jacobsomwaru/flee/')
 let serviceAccountAddress ='0xf8d6e0586b0a20c7'
 var flowService = new flow.FlowService(serviceAccountAddress, 0, constants.Accountkeys.serviceAccountKey)
 flowService.getAccount(serviceAccountAddress).then(r => {
@@ -24,8 +24,8 @@ deploy.deploy(flowService).then(r =>  {
   }
 )
 
-// deploy.deployFCL(flowService).then(r => {
-//   console.log(r)
-// })
+// // deploy.deployFCL(flowService).then(r => {
+// //   console.log(r)
+// // })
 
  

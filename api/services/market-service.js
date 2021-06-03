@@ -10,7 +10,6 @@ class MarketService {
     
     async mint(quantity, filemeta, address) {
         let auth = this.flow.authorizeAccount()
-        console.log(filemeta)
         const tx = await fcl.send([fcl.transaction(mintTx.mintTokens), 
             fcl.args([fcl.arg(quantity, types.Int),
             fcl.arg(filemeta, types.Dictionary({key: types.String, value: types.String})),
